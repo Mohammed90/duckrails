@@ -84,20 +84,26 @@ module Duckrails
         when Duckrails::Mock::SCRIPT_TYPE_STATIC
           script
         when Duckrails::Mock::SCRIPT_TYPE_EMBEDDED_RUBY
-          variables = {
+          context_variables = {
             response: response,
             request: request,
             parameters: params
           }
 
-          Erubis::Eruby.new(script).evaluate(variables)
-      end
+          Erubis::Eruby.new(script).evaluate(context_variables)
+        when Duckrails::Mock::SCRIPT_TYPE_JS
+          headers = request.headers.select do |header|
+            header[1].is_a? String
+          end
+          context = ExecJS.compile("parameters = #{params.to_json}; headers = #{headers.to_json}")
+          context.exec script
+      end unless script.blank?
 
       force_json ? JSON.parse(result.blank? ? '{}' : result) : result
     rescue StandardError => error
       response.headers['Duckrails-Error'] = error.to_s
       logger.error error.message
-      logger.error error.backtrace.join '\n'
+      logger.error error.backtrace.join "\n"
       nil
     end
 

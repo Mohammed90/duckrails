@@ -6,6 +6,7 @@ module Duckrails
 
     def available_script_types
       [ [t(Duckrails::Mock::SCRIPT_TYPE_EMBEDDED_RUBY), Duckrails::Mock::SCRIPT_TYPE_EMBEDDED_RUBY],
+        [t(Duckrails::Mock::SCRIPT_TYPE_JS), Duckrails::Mock::SCRIPT_TYPE_JS],
         [t(Duckrails::Mock::SCRIPT_TYPE_STATIC), Duckrails::Mock::SCRIPT_TYPE_STATIC] ]
     end
   end

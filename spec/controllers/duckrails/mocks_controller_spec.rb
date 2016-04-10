@@ -460,6 +460,41 @@ module Duckrails
               end
             end
           end
+
+          context 'with js script' do
+            let(:script_type) { Duckrails::Mock::SCRIPT_TYPE_JS }
+
+            context 'without script' do
+              context 'with force json' do
+                let(:force_json) { true }
+
+                it { should == {} }
+              end
+
+              context 'without force json' do
+                it { should be nil }
+              end
+            end
+
+            context 'with script' do
+              context 'with force json' do
+                let(:force_json) { true }
+
+                context 'and invalid json' do
+                  let(:script) { 'return "Invalid json"' }
+                  let(:should_raise_exception) { true }
+
+                  it { should be nil }
+                end
+
+                context 'and valid json' do
+                  let(:script) { 'return JSON.stringify({a: 1})' }
+
+                  it { should == { a: 1 }.as_json }
+                end
+              end
+            end
+          end
         end
       end
 
@@ -549,6 +584,41 @@ module Duckrails
                   let(:script) { '<%= { foo: Date.today }.to_json %>' }
 
                   it { should == { foo: Date.today }.as_json }
+                end
+              end
+            end
+          end
+
+          context 'with js script' do
+            let(:script_type) { Duckrails::Mock::SCRIPT_TYPE_JS }
+
+            context 'without script' do
+              context 'with force json' do
+                let(:force_json) { true }
+
+                it { should == {} }
+              end
+
+              context 'without force json' do
+                it { should be nil }
+              end
+            end
+
+            context 'with script' do
+              context 'with force json' do
+                let(:force_json) { true }
+
+                context 'and invalid json' do
+                  let(:script) { 'Failed' }
+                  let(:should_raise_exception) { true }
+
+                  it { should be nil }
+                end
+
+                context 'and valid json' do
+                  let(:script) { 'return JSON.stringify({b: 1})' }
+
+                  it { should == { b: 1 }.as_json }
                 end
               end
             end

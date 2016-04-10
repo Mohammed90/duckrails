@@ -18,9 +18,10 @@ module Duckrails
       subject { helper.send :available_script_types }
 
       it 'should return all available types and their translations' do
-        expect(subject.size).to eq 2
-        
+        expect(subject.size).to eq 3
+
         expect(subject).to include ['Embedded Ruby', 'embedded_ruby']
+        expect(subject).to include ['Javascript', 'js']
         expect(subject).to include ['Static', 'static']
       end
     end

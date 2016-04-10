@@ -54,6 +54,15 @@ When specifying dynamic content of embedded ruby (more options to be added), you
 - <code>@request</code>: The request
 - <code>@response</code>: The response
 
+### Javascript
+
+When specifying dynamic content of javascript type, you can read as local variables:
+
+- <code>parameters</code>: The parameters of the request
+- <code>headers</code>: The request headers
+
+The script should always return a string (for JSON use <code>JSON.stringify(your_variable)</code>)
+
 ### Route paths
 
 You can specify routes and access their parts in the *@parameters* variable, for example:
